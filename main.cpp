@@ -22,7 +22,6 @@ void remove(int removeNode, Node* &head);
 
 int main() {
   int nums[80];
-  int num = 0;
   char input[80];
   bool cont = true;
   Node* head = NULL;
@@ -31,6 +30,7 @@ int main() {
     cin >> input;
     cin.ignore();
     if (strcmp(input, "add") == 0) {
+      int num = 0;
       while(num != -1) {
         cout << "Enter number, enter -1 to quit adding: ";
         cin >> num;
@@ -79,10 +79,10 @@ Node* insert(Node* newnode, Node* &n) {
     n = newnode;
     return n;
   }
-  if (newnode->data < n->data) {
+  if (newnode->data <= n->data) {
     n->left = insert(newnode, n->left);
   }
-  else if (newnode->data > n->data) {
+  else if (newnode->data >= n->data) {
     n->right = insert(newnode, n->right);
   }
   return n;
@@ -100,9 +100,31 @@ void print(Node* n, int numTabs) {
   cout << n->data << endl;
   print(n->left, numTabs);
 }
-/*
-void remove(int n, Node* &head) {
-  if (n->next == NULL) {
+
+void remove(int num, Node* &n) {
+  /*
+  find the node that matches the num
+  1. node is leaf: simply delete the node
+  2. node has one child: replace node, remove child
+  3. node has two children: find node to replace, replace, remove successor
+  */
+  if (n->data > num) {
+    remove(num, n->left);
+  }
+  else if (n->data < num) {
+    remove(num, n->right);
+  }
+  else {//found the right one
+
+  }
+
+
+  if (->next == NULL) {
+    Node* temp = n;
+
     //leaf, remove
   }
-}*/
+  else if () {
+
+  }
+}

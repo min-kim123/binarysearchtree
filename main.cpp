@@ -18,7 +18,7 @@ public:
 
 Node* insert(Node* newnode, Node* &head);
 void print(Node* head, int numTabs);
-void remove(int removeNode, Node* &head);
+Node* remove(int removeNode, Node* &head);
 
 int main() {
   int nums[80];
@@ -45,7 +45,7 @@ int main() {
       int r = 0;
       cout << "Number to remove: ";
       cin >> r;
-      //remove(r, head);
+      remove(r, head);
     }
     else if (strcmp(input, "print") == 0) {
       Node* a = head;
@@ -73,7 +73,7 @@ int main() {
     }
   }
 }
-//pseudocode for all functions below from https://www.programiz.com/dsa/binary-search-tree
+//pseudocode for insert and print and code for remove from https://www.programiz.com/dsa/binary-search-tree
 Node* insert(Node* newnode, Node* &n) {
   if (n == NULL) {
     n = newnode;
@@ -101,30 +101,48 @@ void print(Node* n, int numTabs) {
   print(n->left, numTabs);
 }
 
-void remove(int num, Node* &n) {
+Node* remove(int num, Node* &n) {
   /*
   find the node that matches the num
   1. node is leaf: simply delete the node
   2. node has one child: replace node, remove child
   3. node has two children: find node to replace, replace, remove successor
   */
-  if (n->data > num) {
-    remove(num, n->left);
+ cout << "remove" << endl;
+  if (n == NULL) {
+    return n;
+  }
+  else if (n->data > num) {
+    cout << "1" << endl;
+    n->left = remove(num, n->left);
   }
   else if (n->data < num) {
-    remove(num, n->right);
+    cout << "2" << endl;
+    n->right = remove(num, n->right);
   }
-  else {//found the right one
+  else {//node has only one child or no child
+  cout << "3" << endl;
+    if (n->left == NULL) {
+      cout << "4" << endl;
+      Node* temp = n->right;
+      delete n;
+      return temp;
+    }
+    else if (n->right == NULL) {
+      cout << "5" << endl;
+      Node* temp = n->left;
+      delete n;
+      return temp;
+    }
+    Node* current = n->right;
+  while(current && current->left != NULL) {
+    current = current->left;
+  }
+  Node* temp = current;
+
+  n->data = temp->data;
+  n->right = remove(temp->data, n->right);
 
   }
-
-
-  if (->next == NULL) {
-    Node* temp = n;
-
-    //leaf, remove
-  }
-  else if () {
-
-  }
+  return n;
 }

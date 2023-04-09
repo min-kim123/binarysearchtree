@@ -19,6 +19,7 @@ public:
 Node* insert(Node* newnode, Node* &head);
 void print(Node* head, int numTabs);
 Node* remove(int removeNode, Node* &head);
+void search(Node* head, int searchnum);
 
 int main() {
   int nums[80];
@@ -26,7 +27,7 @@ int main() {
   bool cont = true;
   Node* head = NULL;
   while (cont == true) {
-    cout << "Add, remove, print, or quit (add, remove, print, quit)?: ";
+    cout << "Add, remove, print, search, or quit (add, remove, print, seach, quit)?: ";
     cin >> input;
     cin.ignore();
     if (strcmp(input, "add") == 0) {
@@ -64,6 +65,12 @@ int main() {
       cout << endl;
       int numTabs = 0;
       print(head, numTabs);
+    }
+    else if (strcmp(input, "search") == 0) {
+      int num = 0;
+      cout << "Number: ";
+      cin >> num;
+      search(head, num);
     }
     else if (strcmp(input, "quit") == 0) {
       cont = false;
@@ -145,4 +152,22 @@ Node* remove(int num, Node* &n) {
 
   }
   return n;
+}
+
+void search (Node* n, int searchnum) {
+  if (n->data == searchnum) {
+    cout << "Number exists." << endl;
+    return;
+  }
+  else if (n->data > searchnum && n->left != NULL) {
+    search(n->left, searchnum);
+  }
+  else if (n->data < searchnum && n->right != NULL) {
+    search(n->right, searchnum);
+  }
+  else if (n->left == NULL || n->right == NULL) {//number doesn't exist
+    cout << "Number doesn't exist." << endl;
+    return;
+  }
+
 }

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <fstream>
 #include <math.h>
 #include <cstring>
 using namespace std;
@@ -26,20 +27,47 @@ int main() {
   char input[80];
   bool cont = true;
   Node* head = NULL;
+  char file[80];
+  int rawinputs[80];
+  int total = 0;
+  int size = 0;
   while (cont == true) {
     cout << "Add, remove, print, search, or quit (add, remove, print, seach, quit)?: ";
     cin >> input;
     cin.ignore();
     if (strcmp(input, "add") == 0) {
+      int in = 0;
       int num = 0;
-      while(num != -1) {
-        cout << "Enter number, enter -1 to quit adding: ";
-        cin >> num;
-        if (num == -1) {
-          break;
-	      }
-        Node* newnode = new Node(num);
-        insert(newnode, head);
+      cout << "Enter from file or console (file, console)?: ";
+      cin >> in;
+      if (in == 1) {//file
+        cout << "Enter file name (Do not include .txt): ";
+        cin >> file;
+        cin.ignore();
+        strcat(file, ".txt");//concatenate strings
+        ifstream numFile;
+        numFile.open(file);
+        cout << "Numbers from file: ";
+        while (numFile >> rawinputs[total]) {
+          Node* newnode = new Node(rawinputs[total]);
+          insert(newnode, head);
+            cout << rawinputs[total] << " ";
+            total+=1;
+            size+=1;
+        }
+        cout << endl;
+        numFile.close();
+      }
+      else {//console
+        while(num != -1) {
+          cout << "Enter number, enter -1 to quit adding: ";
+          cin >> num;
+          if (num == -1) {
+            break;
+          }
+          Node* newnode = new Node(num);
+          insert(newnode, head);
+        }
       }
     }
     else if (strcmp(input, "remove") == 0) {
@@ -115,28 +143,22 @@ Node* remove(int num, Node* &n) {
   2. node has one child: replace node, remove child
   3. node has two children: find node to replace, replace, remove successor
   */
- cout << "remove" << endl;
   if (n == NULL) {
     return n;
   }
   else if (n->data > num) {
-    cout << "1" << endl;
     n->left = remove(num, n->left);
   }
   else if (n->data < num) {
-    cout << "2" << endl;
     n->right = remove(num, n->right);
   }
   else {//node has only one child or no child
-  cout << "3" << endl;
     if (n->left == NULL) {
-      cout << "4" << endl;
       Node* temp = n->right;
       delete n;
       return temp;
     }
     else if (n->right == NULL) {
-      cout << "5" << endl;
       Node* temp = n->left;
       delete n;
       return temp;

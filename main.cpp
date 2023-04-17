@@ -38,7 +38,7 @@ int main() {
     if (strcmp(input, "add") == 0) {
       int in = 0;
       int num = 0;
-      cout << "Enter from file or console (file, console)?: ";
+      cout << "Enter from file (1) or console(2)?: ";
       cin >> in;
       if (in == 1) {//file
         cout << "Enter file name (Do not include .txt): ";
